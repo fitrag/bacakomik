@@ -28,27 +28,27 @@ const MangaProject = () => {
             {
                 loading ? 
                 <>
-                <div className="animate-pulse p-2">
+                <div className="animate-pulse p-2 w-[350px]">
                     <div className="rounded-lg bg-slate-200 h-[150px] w-full"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-full mt-2"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-[8vw] mt-2"></div>
                 </div>
-                <div className="animate-pulse p-2">
+                <div className="animate-pulse p-2 w-[350px]">
                     <div className="rounded-lg bg-slate-200 h-[150px] w-full"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-full mt-2"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-[8vw] mt-2"></div>
                 </div>
-                <div className="animate-pulse p-2">
+                <div className="animate-pulse p-2 w-[350px]">
                     <div className="rounded-lg bg-slate-200 h-[150px] w-full"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-full mt-2"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-[8vw] mt-2"></div>
                 </div>
-                <div className="animate-pulse p-2">
+                <div className="animate-pulse p-2 w-[350px]">
                     <div className="rounded-lg bg-slate-200 h-[150px] w-full"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-full mt-2"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-[8vw] mt-2"></div>
                 </div>
-                <div className="animate-pulse p-2">
+                <div className="animate-pulse p-2 w-[350px]">
                     <div className="rounded-lg bg-slate-200 h-[150px] w-full"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-full mt-2"></div>
                     <div className="rounded-lg bg-slate-200 h-3 w-[8vw] mt-2"></div>

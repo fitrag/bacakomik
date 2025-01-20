@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
         className={`${interFont.className} antialiase mb-[12vh]`}
       >
           <UserNameModal  />
-          <div className="min-w-[120px] m-auto max-w-[500px]">
+          <div className="m-auto max-w-[500px]">
             {children}
           </div>
           <Navbar />
