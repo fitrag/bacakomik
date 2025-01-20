@@ -10,16 +10,19 @@ const Detail = () => {
     
     const [komik, setKomik] = useState({})
     const [chapter, setChapter] = useState([])
+    const [genres, setGenres] = useState([])
     const [favorit, setFavorit] = useState([])
-    const [isFavorit, setIsFavorit] = useState(false) // Menyimpan status apakah komik sudah di favoritkan
+    const [isFavorit, setIsFavorit] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     // Mengambil detail komik berdasarkan slug
     const getDetail = async() => {
         const get = await fetch(`http://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
         const res = await get.json()
-        console.log(res.chapter_list)
         setKomik(res)
         setChapter(res.chapter_list)
+        setGenres(res.genres)
+        setLoading(false)
     }
 
     // Mengambil data favorit dari localStorage
@@ -58,6 +61,69 @@ const Detail = () => {
 
     return (
         <>
+        { loading ? 
+        <>
+        <div className="animate-pulse">
+            <div className="h-[450px] bg-slate-200 relative">
+                <div className="absolute z-0 top-[0px] bottom-[0px] right-[0px] left-[0px] bg-gradient-to-t from-cyan-500 to-transparent">
+                    <div className="p-4">
+                        <Link href={'/'}>
+                        <div className="text-white bg-cyan-400 opacity-50 inline-block p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.0} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                        </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="absolute flex justify-between w-full bottom-0 z-10 items-center text-white p-4">
+                    <div className="flex-1">
+                        <div className="rounded-lg bg-slate-200 h-8 mb-1 w-full"></div>
+                        <div className="rounded-lg bg-slate-200 h-8 mb-3 w-1/2"></div>
+                        <div className="flex gap-x-1 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                            <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clipRule="evenodd" />
+                        </svg>
+                        <div className="rounded-lg bg-slate-200 h-3 w-1/2"></div>
+                        </div>
+                        <div className="flex gap-x-1 items-center">
+                        <div className="rounded-lg bg-slate-200 h-3 w-1/2"></div>
+                        </div>
+                    </div>
+                    <div className="p-2">
+                        <div className="rounded-lg bg-slate-200 h-[50px] w-[50px]"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="p-5">
+                <div className="bg-gray-100 rounded-full justify-around items-center flex p-4 text-gray-400">
+                    <div className="flex">
+                        <div className="rounded-lg block bg-red-400 h-5"></div>
+                    </div>
+                    <div className="flex">
+                        <div className="rounded-lg block bg-red-400 h-5"></div>
+                    </div>
+                    <div className="flex">
+                        <div className="rounded-lg block bg-red-400 h-5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="p-4">
+                <h3 className="font-semibold text-lg mb-3">Sinopsis</h3>
+                <div className="rounded-lg block bg-slate-200 h-4 mb-3"></div>
+                <div className="rounded-lg block bg-slate-200 h-4 mb-3"></div>
+                <div className="rounded-lg block bg-slate-200 h-4 mb-3"></div>
+                <div className="rounded-lg block bg-slate-200 h-4 mb-3"></div>
+                <div className="rounded-lg block bg-slate-200 h-4 mb-3"></div>
+                <div className="rounded-lg block bg-slate-200 h-4 mb-3"></div>
+            </div>
+
+        </div>
+        </>
+        :
+        <>
         <div style={bgImage} className="h-[450px] relative">
             <div className="absolute z-0 top-[0px] bottom-[0px] right-[0px] left-[0px] bg-gradient-to-t from-cyan-500 to-transparent">
                 <div className="p-4">
@@ -75,7 +141,17 @@ const Detail = () => {
                     <h1 className="font-bold text-2xl">
                         {komik.title}
                     </h1>
-                    <p>{komik.author}</p>
+                    <div className="flex gap-x-1 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                        <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clipRule="evenodd" />
+                    </svg>
+                        {komik.author}</div>
+                    <div className="">
+                    {genres.map((g,i)=>(
+                        <div className="inline-block" key={i}>
+                            {g.genre},
+                        </div>
+                    ))}</div>
                 </div>
                 <div className="p-2">
                     <div className="cursor-pointer" onClick={() => !isFavorit ? addToFavorit(komik) : ''}>
@@ -126,7 +202,7 @@ const Detail = () => {
                 <h3 className="p-3 font-semibold text-md border-b text-gray-500">List Chapter</h3>
                 <div className="h-[50vh] overflow-y-auto">
                     { 
-                        chapter.map((c, index) => (
+                        chapter ? chapter?.map((c, index) => (
                         <Link href={`/pages/baca/${c.chapter_link}`} key={index}>
                             <div className="p-4 border-b text-gray-400 flex gap-x-3">
                                     <div className="bg-gray-200 p-3 rounded-lg">
@@ -146,10 +222,13 @@ const Detail = () => {
                             </div>
                         </Link>
                         ))
+                        : <div className="text-center p-4 text-gray-400">Belum ada chapter</div>
                     }
                 </div>
             </div>
         </div>
+        </>
+        }
         </>
     )
 }

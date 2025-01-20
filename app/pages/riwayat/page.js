@@ -27,7 +27,7 @@ const Riwayat = () => {
     </div>
       <div>
         {history.length === 0 ? (
-          <p className="text-gray-500">Belum ada riwayat membaca komik.</p>
+          <p className="text-gray-500 flex flex-col h-screen items-center justify-center">Belum ada riwayat membaca komik.</p>
         ) : (
           <ul>
             {history.map((item, index) => (
