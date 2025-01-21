@@ -6,7 +6,8 @@ self.addEventListener('install', (event) => {
     caches.open('pwa-cache').then((cache) => {
       return cache.addAll([
         '/',
-        '/icons/icon-512x512.png'
+        '/favicon.ico',
+        '/icon-512x512.png'
       ]).catch((err) => {
         console.error('Error caching resources during installation:', err);
       });
