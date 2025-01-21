@@ -1,13 +1,20 @@
 // public/service-worker.js
 
+const CACHE_NAME = 'komikdata';
+const CACHE_EXPIRATION_TIME = 2 * 60 * 1000; // 2 minutes in milliseconds
+
+// Daftar file untuk di-cache saat instalasi
+const PRECACHE_URLS = [
+  '/',
+  '/icons/icon-512x512.png',
+  '/offline.html', // Halaman fallback saat offline
+];
+
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open('pwa-cache').then((cache) => {
-      return cache.addAll([
-        '/',
-        '/icons/icon-512x512.png'
-      ]).catch((err) => {
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(PRECACHE_URLS).catch((err) => {
         console.error('Error caching resources during installation:', err);
       });
     })
@@ -15,53 +22,37 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('apimanga.wocogeh.com')) {
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse; // Jika data ada di cache
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      // Cek apakah permintaan ada di cache
+      if (cachedResponse) {
+        return cachedResponse; // Jika ada di cache, kembalikan data cache
+      }
+
+      // Jika tidak ada di cache, lakukan fetch
+      return fetch(event.request).then((response) => {
+        // Jika request sukses, simpan respons dalam cache
+        if (response.ok) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
         }
+        return response;
+      }).catch((err) => {
+        // Jika aplikasi offline dan tidak ada di cache, tampilkan halaman offline
+        console.error('Fetch failed:', err);
+        return caches.match('/offline.html'); // Tampilkan halaman offline jika offline
+      });
+    })
+  );
+});
 
-        // Jika tidak ada di cache, lakukan fetch dan cache hasilnya
-        return fetch(event.request)
-          .then((response) => {
-            // Pastikan respons bisa diclone sebelum digunakan
-            if (response.ok) {
-              const responseClone = response.clone();
-              caches.open('pwa-cache').then((cache) => {
-                cache.put(event.request, responseClone); // Simpan respons dalam cache
-              });
-            }
-            return response;
-          })
-          .catch((err) => {
-            console.error('Failed to fetch:', err);
-            // Fallback response jika fetch gagal (misalnya mode offline)
-            return new Response('Data tidak tersedia', {
-              status: 503,
-              statusText: 'Service Unavailable',
-            });
-          });
-      })
-    );
-  } else {
-    // Untuk permintaan selain API, lakukan fetch secara normal
-    event.respondWith(
-      fetch(event.request).catch((err) => {
-        console.error('Fetch failed for request', event.request.url, err);
-        // Jika fetch gagal, coba fallback ke cache
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          // Jika tidak ada di cache, kembalikan response error valid
-          return new Response('Data tidak tersedia', {
-            status: 503,
-            statusText: 'Service Unavailable',
-          });
-        });
-      })
-    );
-  }
-
+// Optional: Menambahkan halaman offline ke cache
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.add('/offline.html');
+    })
+  );
 });
