@@ -15,25 +15,50 @@ const Detail = () => {
     const [isFavorit, setIsFavorit] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    // Mengambil detail komik berdasarkan slug
-    const getDetail = async() => {
-        const get = await fetch(`http://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
-        const res = await get.json()
-        setKomik(res)
-        setChapter(res.chapter_list)
-        setGenres(res.genres)
-        setLoading(false)
+    // Mendapatkan data dari cache atau API
+    const getDetail = async () => {
+        const cache = await caches.open('komik-detail-cache')
+        const cachedResponse = await cache.match(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
+
+        if (cachedResponse) {
+            const data = await cachedResponse.json()
+            setKomik(data)
+            setChapter(data.chapter_list)
+            setGenres(data.genres)
+            setLoading(false)
+        } else {
+            setLoading(true)
+            const res = await fetch(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
+            const data = await res.json()
+
+            // Simpan data terbaru ke cache
+            cache.put(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`, new Response(JSON.stringify(data)))
+
+            setKomik(data)
+            setChapter(data.chapter_list)
+            setGenres(data.genres)
+            setLoading(false)
+        }
     }
 
-    // Mengambil data favorit dari localStorage
     useEffect(() => {
         getDetail()
-        const storedFavorit = JSON.parse(localStorage.getItem('favoritKomik')) || []
-        setFavorit(storedFavorit)
 
-        // Cek apakah komik sudah ada di favorit
-        const isAlreadyFavorit = storedFavorit.some(fav => fav.slug === slug)
-        setIsFavorit(isAlreadyFavorit)
+        // Cek koneksi saat aplikasi dimuat
+        const checkOnlineStatus = () => {
+            if (navigator.onLine) {
+                // Jika online, ambil data terbaru
+                getDetail()
+            }
+        }
+
+        // Perbarui saat koneksi kembali online
+        window.addEventListener('online', checkOnlineStatus)
+
+        return () => {
+            // Hapus listener saat komponen dihapus
+            window.removeEventListener('online', checkOnlineStatus)
+        }
     }, [slug])
 
     // Menambah komik ke favorit

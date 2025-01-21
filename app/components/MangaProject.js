@@ -10,7 +10,7 @@ const MangaProject = () => {
     const [loading, setLoading] = useState(true)
 
     const getKomik = async () => {
-        const response = await fetch('http://apimanga.wocogeh.com/manga/v2/manga-project');
+        const response = await fetch('https://apimanga.wocogeh.com/manga/v2/manga-project');
         const data = await response.json();
         setKomikList(data.anime_list);
         setKomik(data);

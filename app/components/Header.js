@@ -90,7 +90,7 @@ const Header = () => {
 
                 {/* Menampilkan hasil pencarian jika ada */}
                 {searchQuery && searchResults.length > 0 && (
-                    <div className="mt-4 bg-white rounded-lg shadow-lg p-4 z-20">
+                    <div className="mt-4 bg-white rounded-lg shadow p-4 z-20">
                         <h4 className="font-semibold text-lg">Hasil Pencarian</h4>
                         <ul className="mt-2">
                             {searchResults.map((komik,index) => (
@@ -111,7 +111,7 @@ const Header = () => {
 
                 {/* Menampilkan pesan jika tidak ada hasil pencarian */}
                 {searchQuery && searchResults.length === 0 && !loading && (
-                    <div className="mt-4 bg-white rounded-lg shadow-lg p-4 z-20">
+                    <div className="mt-4 bg-white rounded-lg shadow p-4 z-20">
                         <p className="text-gray-500">Tidak ada hasil untuk "{searchQuery}"</p>
                     </div>
                 )}

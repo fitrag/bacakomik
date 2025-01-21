@@ -16,8 +16,15 @@ const Baca = () => {
 
   // Mendapatkan daftar chapter dari API
   const getChapter = async () => {
-    const get = await fetch(`http://apimanga.wocogeh.com/manga/v2/chapter/${slug}`);
+    const get = await fetch(`https://apimanga.wocogeh.com/manga/v2/chapter/${slug}`);
     const res = await get.json();
+
+    if ('caches' in window) {
+      caches.open('chapter-komik').then((cache) => {
+        cache.add(new Request(`https://apimanga.wocogeh.com/manga/v2/chapter/${slug}`)); // Add the chapter to cache
+      });
+    }
+
     setChapters(res.chapter);
     setKomik(res);
     saveReadingHistory(res)

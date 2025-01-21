@@ -12,9 +12,11 @@ const interFont = Inter({
 export const metadata = {
   title: "BacaKomik",
   description: "baca komik online",
+
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
       <body
