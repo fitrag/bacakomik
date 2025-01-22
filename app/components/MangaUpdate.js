@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+const CACHE_EXPIRATION_TIME = 2 * 60 * 1000; // 2 minutes in milliseconds
+
 const MangaUpdate = () => {
     
     const [komik, setKomik] = useState();
@@ -11,16 +13,28 @@ const MangaUpdate = () => {
 
     const getKomik = async () => {
         const apiUrl = 'https://apimanga.wocogeh.com/manga/v2/manga-update';
-
+        
         // Cek apakah data ada di cache terlebih dahulu
         const cachedKomikList = await caches.match(apiUrl);
+        const currentTime = Date.now();
+
         if (cachedKomikList) {
-            // Jika data ada di cache, ambil data dan tampilkan
-            const cachedData = await cachedKomikList.json();
-            setKomikList(cachedData.anime_list);
-            setLoading(false);
-        } else {
-            // Jika data tidak ada di cache, lakukan fetch dari API
+            const cachedTime = cachedKomikList.headers.get('X-Cache-Time');
+            
+            if (cachedTime && currentTime - cachedTime < CACHE_EXPIRATION_TIME) {
+                // Jika cache masih valid, ambil data dari cache
+                const cachedData = await cachedKomikList.json();
+                setKomikList(cachedData.anime_list);
+                setLoading(false);
+                return;
+            } else {
+                // Jika cache sudah kadaluwarsa, fetch ulang dan perbarui cache
+                console.log('Cache expired. Fetching new data...');
+            }
+        }
+
+        // Jika data tidak ada di cache atau sudah kadaluwarsa, fetch ulang
+        try {
             const response = await fetch(apiUrl);
             const data = await response.json();
             setKomikList(data.anime_list);
@@ -28,8 +42,23 @@ const MangaUpdate = () => {
 
             // Cache data yang baru didapat untuk akses offline
             caches.open('komikdata').then((cache) => {
-                cache.put(apiUrl, new Response(JSON.stringify(data)));
+                const cacheResponse = new Response(JSON.stringify(data), {
+                    headers: { 'X-Cache-Time': String(Date.now()) }
+                });
+                cache.put(apiUrl, cacheResponse);
             });
+        } catch (err) {
+            console.error('Failed to fetch:', err);
+            // Jika aplikasi offline, coba tampilkan data dari cache jika ada
+            const cachedData = await caches.match(apiUrl);
+            if (cachedData) {
+                const cachedKomik = await cachedData.json();
+                setKomikList(cachedKomik.anime_list);
+                setLoading(false);
+            } else {
+                setLoading(false);
+                setKomikList([]); // Kosongkan data jika tidak ada di cache
+            }
         }
     };
 
