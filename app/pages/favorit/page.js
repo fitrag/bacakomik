@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "@/app/components/Header";
 
 const Favorit = () => {
+  // State untuk menyimpan komik favorit
   const [favoritKomik, setFavoritKomik] = useState([]);
 
   // Mengambil komik favorit dari localStorage
@@ -14,30 +14,30 @@ const Favorit = () => {
     setFavoritKomik(storedFavorit);
   }, []);
 
-  // Menghapus komik dari favorit
+  // Fungsi untuk menghapus komik dari favorit
   const removeFromFavorit = (slug) => {
     const updatedFavorit = favoritKomik.filter((komik) => komik.slug !== slug);
     setFavoritKomik(updatedFavorit);
+    // Simpan perubahan ke localStorage
     localStorage.setItem("favoritKomik", JSON.stringify(updatedFavorit));
   };
 
   return (
     <>
-
-    <div className="bg-white flex py-4 gap-x-2 items-center border-b text-center">
-        {/* <div className="cursor-pointer" onClick={()=> window.history.back()}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
-            </svg>
-        </div> */}
+      {/* Header */}
+      <div className="bg-white flex py-4 gap-x-2 items-center border-b text-center dark:bg-[#1F242D] dark:text-gray-300 dark:border-gray-600">
         <div className="flex-1 text-center">
-            Komik Favorit
+          Komik Favorit
         </div>
-    </div>
+      </div>
 
+      {/* Jika belum ada komik favorit */}
       {favoritKomik.length === 0 ? (
-        <p className="text-center text-gray-500 h-screen items-center flex justify-center">Belum ada komik favorit.</p>
+        <p className="text-center text-gray-500 h-screen items-center flex justify-center">
+          Belum ada komik favorit.
+        </p>
       ) : (
+        // Menampilkan daftar komik favorit
         <div className="grid grid-cols-2 gap-4">
           {favoritKomik.map((komik, index) => (
             <div className="w-[180px] sm:w-[250px] p-3" key={index}>
@@ -55,7 +55,7 @@ const Favorit = () => {
                   />
                 </Link>
 
-                {/* Tombol hapus komik dari favorit */}
+                {/* Tombol untuk menghapus komik dari favorit */}
                 <button
                   onClick={() => removeFromFavorit(komik.slug)}
                   className="absolute top-2 right-2 text-white bg-red-500 p-1 rounded-full"
@@ -77,6 +77,7 @@ const Favorit = () => {
                 </button>
               </div>
 
+              {/* Menampilkan detail komik */}
               <h1 className="text-sm font-semibold truncate text-ellipsis mt-2">
                 {komik.title}
               </h1>

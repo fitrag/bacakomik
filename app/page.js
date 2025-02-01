@@ -4,6 +4,7 @@ import MangaUpdate from "./components/MangaUpdate";
 import Header from "./components/Header";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default function Home() {
   
@@ -28,6 +29,7 @@ export default function Home() {
       <Head>
         <link rel="icon" href="/icon-512x512.png" />
       </Head>
+      <ThemeToggle />
       <Header />
       <MangaProject />
       <MangaUpdate  />

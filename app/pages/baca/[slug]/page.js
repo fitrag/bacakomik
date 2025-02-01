@@ -64,24 +64,20 @@ const Baca = () => {
 
   return (
     <>
-      <div className="bg-white flex py-4 gap-x-2 items-center border-b">
+      <div className="bg-white dark:bg-[#1F242D] flex py-4 gap-x-2 items-center border-b dark:border-gray-700">
         <div className="cursor-pointer" onClick={() => window.history.back()}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
             <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
           </svg>
         </div>
-        <div className="truncate text-ellipsis w-full">
-
+        <div className="truncate text-ellipsis w-full text-gray-700 dark:text-white">
           {
-          loading ?
-          <>
+            loading ?
             <div className="animate-pulse">
-                <div className="rounded-lg bg-slate-200 h-3 w-full"></div>
+                <div className="rounded-lg bg-slate-200 dark:bg-slate-600 h-3 w-full"></div>
             </div>
-          </>
-          :
-          komik.judul
-          
+            :
+            komik.judul
           }
         </div>
       </div>
@@ -89,13 +85,10 @@ const Baca = () => {
       {chapters.map((chapter, index) => (
         <div key={index} className="my-4">
           <div>
-          {loadingImage && 
-          <>
+            {loadingImage && 
             <div className="animate-pulse p-2">
-                <div className="rounded-lg bg-slate-200 h-[150px] w-full"></div>
-            </div>
-          </>
-          }
+                <div className="rounded-lg bg-slate-200 dark:bg-slate-600 h-[150px] w-full"></div>
+            </div>}
             <Image
               src={chapter.chapter_image}
               width={200}
@@ -110,8 +103,18 @@ const Baca = () => {
       ))}
 
       <div className="flex justify-between gap-x-2">
-      { komik.prevlink && <Link href={`/pages/baca/${komik.prevlink}`}><div className="w-full bg-red-500 text-white p-4 rounded-lg">Sebelumnya</div></Link>}
-      { komik.nextlink && <Link href={`/pages/baca/${komik.nextlink}`}><div className="w-full bg-blue-500 text-white p-4 rounded-lg">Selanjutnya</div></Link>}
+        {komik.prevlink && 
+        <Link href={`/pages/baca/${komik.prevlink}`}>
+          <div className="w-full bg-red-500 text-white p-4 rounded-lg hover:bg-red-600 transition-all">
+            Sebelumnya
+          </div>
+        </Link>}
+        {komik.nextlink && 
+        <Link href={`/pages/baca/${komik.nextlink}`}>
+          <div className="w-full bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-600 transition-all">
+            Selanjutnya
+          </div>
+        </Link>}
       </div>
     </>
   );

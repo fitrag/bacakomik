@@ -216,7 +216,7 @@ const Detail = () => {
             </div>
         </div>
         <div className="p-5">
-            <div className="bg-gray-100 rounded-full justify-around items-center flex p-4 text-gray-400">
+            <div className="bg-gray-100 dark:bg-[#1F242D] rounded-full justify-around items-center flex p-4 text-gray-400">
                 <div className="flex gap-x-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
@@ -240,19 +240,19 @@ const Detail = () => {
         </div>
         <div className="p-4">
             <h3 className="font-semibold text-lg">Sinopsis</h3>
-            <p className="text-gray-500 font-light">
+            <p className="text-gray-500 font-light dark:text-gray-300">
                 {komik.sinopsis}
             </p>
         </div>
         <div className="p-4">
-            <div className="bg-slate-100 rounded-lg">
-                <h3 className="p-3 font-semibold text-md border-b text-gray-500">List Chapter</h3>
+            <div className="bg-slate-100 rounded-lg dark:bg-[#1F242D] dark:text-gray-300">
+                <h3 className="p-3 font-semibold text-md border-b text-gray-500 dark:text-gray-300 dark:border-gray-600">List Chapter</h3>
                 <div className="h-[50vh] overflow-y-auto">
                     { 
                         chapter ? chapter?.map((c, index) => (
                         <Link href={`/pages/baca/${c.chapter_link}`} key={index}>
-                            <div className="p-4 border-b text-gray-400 flex gap-x-3">
-                                    <div className="bg-gray-200 p-3 rounded-lg">
+                            <div className="p-4 border-b text-gray-400 flex gap-x-3 dark:text-gray-300 dark:border-gray-600">
+                                    <div className="bg-gray-200 p-3 rounded-lg dark:bg-[#1A1A1A]">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                                             <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
                                         </svg>

@@ -36,7 +36,7 @@ const InstallButton = () => {
   return (
     showButton && (
       <div className='flex h-screen items-center'>
-        <button onClick={handleInstall} className='bg-white border rounded-lg text-dark p-3 w-full'>
+        <button onClick={handleInstall} className='bg-white border rounded-lg text-dark p-3 w-full dark:bg-gray-800 dark:text-white dark:border-gray-700'>
           Install App
         </button>
       </div>
