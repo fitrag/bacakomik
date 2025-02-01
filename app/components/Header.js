@@ -62,12 +62,13 @@ const Header = () => {
                     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-lg z-10" />
                 )} */}
 
-                <div className="mb-5 z-20 flex">
+                <div className="mb-5 z-20 flex justify-between items-center">
                     <div className="">
                         <p className="text-gray-400 dark:text-gray-300">Selamat datang👋</p>
                         <h3 className="font-semibold text-gray-800 dark:text-white">{name}</h3>
                     </div>
-                    <div className="bg-red-500">
+                    <div className="">
+                        <ThemeToggle />
                     </div>
                 </div>
 

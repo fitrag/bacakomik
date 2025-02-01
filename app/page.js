@@ -29,7 +29,6 @@ export default function Home() {
       <Head>
         <link rel="icon" href="/icon-512x512.png" />
       </Head>
-      <ThemeToggle />
       <Header />
       <MangaProject />
       <MangaUpdate  />

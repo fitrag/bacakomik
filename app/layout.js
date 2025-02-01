@@ -3,7 +3,6 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import UserNameModal from "./components/UserNameModal";
 import { ThemeProvider } from "./context/theme-context";
-import ThemeToggle from "./components/ThemeToggle";
 
 const interFont = Inter({
   weight:["100","300","400","700","900"],
@@ -30,7 +29,6 @@ export default function RootLayout({ children }) {
             {children}
           </div>
           <Navbar />
-          <ThemeToggle />
         </ThemeProvider>
       </body>
     </html>
