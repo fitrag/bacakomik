@@ -77,16 +77,24 @@ const Detail = () => {
         }
     }, [slug])
 
-    // Menambah komik ke favorit
     const addToFavorit = (komik) => {
+        // Cek jika komik sudah ada di favorit
         const isAlreadyFavorit = favorit.some(fav => fav.slug === komik.slug)
-
+    
         if (!isAlreadyFavorit) {
+            // Menambahkan slug ke objek komik yang akan disimpan ke localStorage
             const komikFavorit = { ...komik, slug }
-            const updatedFavorit = [...favorit, komikFavorit]
+            
+            // Ambil data favorit yang ada dari localStorage
+            const storedFavorit = JSON.parse(localStorage.getItem('favoritKomik')) || []
+            
+            // Menambah komik baru ke array favorit
+            const updatedFavorit = [...storedFavorit, komikFavorit]
+            
+            // Simpan data terbaru ke state dan localStorage
             setFavorit(updatedFavorit)
             localStorage.setItem('favoritKomik', JSON.stringify(updatedFavorit))
-            setIsFavorit(true)
+            setIsFavorit(true) // Mengubah status tombol menjadi sudah ditambahkan
         } else {
             alert('Komik ini sudah ada di favorit!')
         }
