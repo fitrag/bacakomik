@@ -10,6 +10,10 @@ const nextConfig = {
           },
           {
             protocol: 'https',
+            hostname: 'komikcast01.com',
+          },
+          {
+            protocol: 'https',
             hostname: 'sv1.imgkc1.my.id',
           },
           {

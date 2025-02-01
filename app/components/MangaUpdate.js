@@ -82,7 +82,7 @@ const MangaUpdate = () => {
                     </>
                     : komikList.map((komik, index) => (
                         <div className="w-[180px] sm:w-[250px] p-3" key={index}>
-                            <Link href={`/pages/detail/${komik.link}`}>
+                            <Link href={`/pages/detail/${komik.link}`} replace>
                                 <Image 
                                     src={komik.img} 
                                     alt={komik.judul} 

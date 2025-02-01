@@ -1,1 +1,99 @@
-<h1>Offline</h1>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Offline</title>
+  <style>
+    /* Resetting default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Container Styling */
+    .container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #e74c3c;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      font-size: 4rem;
+      color: #e74c3c;
+      margin-bottom: 20px;
+    }
+
+    /* Button Styling */
+    .reload-button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reload-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .reload-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🌐</div>
+    <h1>Anda sedang offline</h1>
+    <p>Sepertinya Anda kehilangan koneksi internet. Kami tidak dapat memuat halaman yang diminta.</p>
+    <p>Coba periksa koneksi internet Anda dan muat ulang halaman ini.</p>
+    <button class="reload-button" onclick="location.reload()">Muat Ulang</button>
+  </div>
+</body>
+</html>

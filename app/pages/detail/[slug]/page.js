@@ -19,26 +19,42 @@ const Detail = () => {
     const getDetail = async () => {
         const cache = await caches.open('komik-detail-cache')
         const cachedResponse = await cache.match(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
+        
+        const currentTime = Date.now()
 
         if (cachedResponse) {
-            const data = await cachedResponse.json()
-            setKomik(data)
-            setChapter(data.chapter_list)
-            setGenres(data.genres)
-            setLoading(false)
-        } else {
-            setLoading(true)
-            const res = await fetch(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
-            const data = await res.json()
+            const cacheData = await cachedResponse.json()
+            const cacheTimestamp = cacheData.timestamp || 0
 
-            // Simpan data terbaru ke cache
-            cache.put(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`, new Response(JSON.stringify(data)))
-
-            setKomik(data)
-            setChapter(data.chapter_list)
-            setGenres(data.genres)
-            setLoading(false)
+            // Check if cache is expired (older than 2 minutes)
+            if (currentTime - cacheTimestamp < 2 * 60 * 1000) {
+                // Cache is still valid
+                setKomik(cacheData)
+                setChapter(cacheData.chapter_list)
+                setGenres(cacheData.genres)
+                setLoading(false)
+                return
+            } else {
+                // Cache is expired, remove expired cache
+                await cache.delete(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
+            }
         }
+
+        // If cache is expired or not found, fetch from API
+        setLoading(true)
+        const res = await fetch(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`)
+        const data = await res.json()
+
+        // Add timestamp to the fetched data before caching
+        data.timestamp = currentTime
+
+        // Simpan data terbaru ke cache
+        cache.put(`https://apimanga.wocogeh.com/manga/v2/detail/${slug}`, new Response(JSON.stringify(data)))
+
+        setKomik(data)
+        setChapter(data.chapter_list)
+        setGenres(data.genres)
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -63,16 +79,14 @@ const Detail = () => {
 
     // Menambah komik ke favorit
     const addToFavorit = (komik) => {
-        // Cek jika komik sudah ada di favorit
         const isAlreadyFavorit = favorit.some(fav => fav.slug === komik.slug)
 
         if (!isAlreadyFavorit) {
-            // Menambahkan slug ke objek komik yang akan disimpan ke localStorage
-            const komikFavorit = { ...komik, slug: slug }
+            const komikFavorit = { ...komik, slug }
             const updatedFavorit = [...favorit, komikFavorit]
             setFavorit(updatedFavorit)
             localStorage.setItem('favoritKomik', JSON.stringify(updatedFavorit))
-            setIsFavorit(true) // Mengubah status tombol menjadi sudah ditambahkan
+            setIsFavorit(true)
         } else {
             alert('Komik ini sudah ada di favorit!')
         }
