@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import ThemeToggle from "./components/ThemeToggle";
+import InstallButton from "./components/InstallButton";
 
 export default function Home() {
   
@@ -26,6 +27,7 @@ export default function Home() {
 
   return (
     <>
+      <InstallButton />
       <Head>
         <link rel="icon" href="/icon-512x512.png" />
       </Head>
